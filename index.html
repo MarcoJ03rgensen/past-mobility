@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
         rel="stylesheet">
 
     <!-- html2canvas for High-Res Export -->
@@ -19,20 +19,17 @@
     <style>
         /* Pure CSS Design Tokens */
         :root {
-            --dark: #0B1120;
-            --accent: #F59E0B;
-            /* Amber / Circuit Current */
-            --emerald: #10B981;
-            /* Nature / Pollen */
-            --rose: #F43F5E;
-            /* Risk / Military */
-            --blue: #60A5FA;
-            --purple: #C084FC;
-            --text-main: #F8FAFC;
-            --text-muted: #D1D5DB;
-            --text-dim: #9CA3AF;
-            --bg-panel: rgba(17, 24, 39, 0.6);
-            --border-panel: rgba(55, 65, 81, 1);
+            --dark: #F8FAFC;
+            --accent: #D97706;
+            --emerald: #059669;
+            --rose: #E11D48;
+            --blue: #2563EB;
+            --purple: #7E22CE;
+            --text-main: #0F172A;
+            --text-muted: #334155;
+            --text-dim: #475569;
+            --bg-panel: rgba(241, 245, 249, 0.8);
+            --border-panel: rgba(203, 213, 225, 1);
         }
 
         /* Base Window Settings */
@@ -40,23 +37,25 @@
             margin: 0;
             padding: 0;
             overflow: hidden;
-            background-color: #000000;
-            /* Pure black outer background */
+            background-color: #E2E8F0;
             color: var(--text-main);
             font-family: 'Inter', sans-serif;
             -webkit-font-smoothing: antialiased;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100vw;
+            height: 100vh;
         }
 
         /* STRICT 16:9 PRESENTATION WRAPPER */
         #presentation-wrapper {
-            position: absolute;
-            top: 50%;
-            left: 50%;
+            position: relative;
             width: 1920px;
             height: 1080px;
-            transform: translate(-50%, -50%);
             transform-origin: center center;
-            box-shadow: 0 0 100px rgba(0, 0, 0, 1);
+            box-shadow: 0 0 100px rgba(0, 0, 0, 0.1);
+            perspective: 1000px;
         }
 
         #presentation-container {
@@ -65,6 +64,16 @@
             position: relative;
             background-color: var(--dark);
             overflow: hidden;
+        }
+
+        /* High-Quality Rendering Optimizations */
+        * {
+            text-rendering: optimizeLegibility;
+        }
+
+        img {
+            image-rendering: high-quality;
+            image-rendering: -webkit-optimize-contrast;
         }
 
         /* Continuous Background Elements */
@@ -80,8 +89,8 @@
 
         .bg-grid {
             background-image:
-                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+                linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
             background-size: 80px 80px;
         }
 
@@ -114,23 +123,33 @@
 
         .slide-header {
             margin-bottom: 40px;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 2px solid rgba(0, 0, 0, 0.1);
             padding-bottom: 20px;
             display: flex;
             align-items: center;
         }
 
         .slide-header h2 {
-            font-family: 'Cinzel', serif;
-            font-size: 3rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 4rem;
             font-weight: 700;
             margin: 0;
+            text-transform: none;
         }
 
         .slide-content {
             flex: 1;
             display: flex;
             gap: 60px;
+            min-height: 0; /* CRITICAL FIX: prevents flex children (images) from breaking bounds */
+        }
+
+        .slide-full {
+            padding: 0 !important;
+        }
+
+        .slide-full .slide-footer {
+            display: none !important;
         }
 
         /* Layout Utilities */
@@ -223,12 +242,12 @@
 
         /* Typography */
         .title-main {
-            font-family: 'Cinzel', serif;
+            font-family: 'Inter', sans-serif;
             font-size: 6rem;
             font-weight: 700;
             line-height: 1.1;
             margin: 0 0 1.5rem 0;
-            color: white;
+            color: var(--text-main);
         }
 
         .title-sub {
@@ -239,7 +258,7 @@
         .subtitle-main {
             font-size: 3rem;
             color: var(--text-muted);
-            font-weight: 300;
+            font-weight: 400;
             line-height: 1.5;
             max-width: 64rem;
             margin: 0 auto;
@@ -266,7 +285,7 @@
         }
 
         .text-white {
-            color: white;
+            color: var(--text-main);
         }
 
         .text-blue {
@@ -279,16 +298,16 @@
 
         .lead-text {
             font-size: 2.25rem;
-            color: white;
-            font-weight: 300;
+            color: var(--text-main);
+            font-weight: 400;
             line-height: 1.6;
             margin: 0;
         }
 
         .body-text {
-            font-size: 1.5rem;
+            font-size: 2rem;
             color: var(--text-muted);
-            font-weight: 300;
+            font-weight: 400;
             line-height: 1.6;
             margin: 0;
         }
@@ -341,21 +360,21 @@
         }
 
         .panel-title {
-            font-size: 2.25rem;
+            font-size: 2.5rem;
             font-weight: 600;
             margin: 0 0 1.5rem 0;
         }
 
         .panel-title-small {
-            font-size: 1.5rem;
+            font-size: 1.75rem;
             font-weight: bold;
             margin: 0 0 1rem 0;
         }
 
         .section-title {
-            font-size: 2.25rem;
+            font-size: 2.5rem;
             font-weight: 600;
-            color: white;
+            color: var(--text-main);
             border-left: 4px solid var(--accent);
             padding-left: 1.5rem;
             margin: 0 0 1.5rem 0;
@@ -372,14 +391,14 @@
             position: relative;
             padding-left: 40px;
             margin-bottom: 24px;
-            font-size: 28px;
+            font-size: 36px;
             line-height: 1.5;
-            color: #E2E8F0;
-            font-weight: 300;
+            color: var(--text-main);
+            font-weight: 400;
         }
 
         .bullet-list.text-2xl li {
-            font-size: 1.5rem;
+            font-size: 2.25rem;
         }
 
         .bullet-list li::before {
@@ -388,51 +407,7 @@
             left: 0;
             top: 2px;
             color: var(--accent);
-            font-size: 20px;
-        }
-
-        /* Figure Placeholders */
-        .figure-placeholder {
-            border: 2px dashed rgba(255, 255, 255, 0.2);
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: rgba(255, 255, 255, 0.5);
-            text-align: center;
-            padding: 20px;
-            width: 100%;
-            height: 100%;
-            box-sizing: border-box;
-            position: relative;
-        }
-
-        .figure-label {
-            position: absolute;
-            top: 1rem;
-            left: 1rem;
-            font-size: 0.875rem;
-            font-weight: bold;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-        }
-
-        .icon-lg {
-            width: 4rem;
-            height: 4rem;
-            margin: 0 auto 1rem auto;
-            opacity: 0.4;
-            display: block;
-        }
-
-        .icon-xl {
-            width: 6rem;
-            height: 6rem;
-            margin: 2rem auto 1rem auto;
-            opacity: 0.4;
-            display: block;
+            font-size: 24px;
         }
 
         /* References Grid */
@@ -441,7 +416,7 @@
             grid-template-columns: 1fr 1fr;
             column-gap: 4rem;
             row-gap: 1.5rem;
-            font-size: 1.125rem;
+            font-size: 1.25rem;
             color: var(--text-dim);
             line-height: 1.6;
         }
@@ -459,9 +434,9 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
             padding-top: 20px;
-            color: rgba(255, 255, 255, 0.4);
+            color: rgba(0, 0, 0, 0.5);
             font-size: 20px;
             z-index: 30;
         }
@@ -531,7 +506,7 @@
 
         /* Presentation Mode */
         body.presentation-mode {
-            background-color: #000000;
+            background-color: #E2E8F0;
         }
 
         body.presentation-mode #ui-controls {
@@ -539,9 +514,7 @@
         }
 
         body.presentation-mode #presentation-wrapper {
-            position: fixed;
-            top: 50%;
-            left: 50%;
+            position: relative;
             width: 1920px;
             height: 1080px;
             transform-origin: center center;
@@ -581,7 +554,6 @@
             opacity: 0;
         }
 
-        /* 2-column layout (Panels & Content) */
         body.presentation-mode .slide.active .col-2 > *:nth-child(1) {
             animation: slideFadeRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
             opacity: 0;
@@ -592,7 +564,6 @@
             opacity: 0;
         }
 
-        /* 3-column layout */
         body.presentation-mode .slide.active .col-3 > *:nth-child(1) {
             animation: slideFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
             opacity: 0;
@@ -606,13 +577,11 @@
             opacity: 0;
         }
 
-        /* Full width content (References) */
         body.presentation-mode .slide.active .ref-grid {
             animation: slideFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
             opacity: 0;
         }
 
-        /* Staggered Bullet Points */
         body.presentation-mode .slide.active .bullet-list li {
             animation: slideFadeRight 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             opacity: 0;
@@ -624,7 +593,6 @@
         body.presentation-mode .slide.active .bullet-list li:nth-child(5) { animation-delay: 0.7s; }
         body.presentation-mode .slide.active .bullet-list li:nth-child(6) { animation-delay: 0.8s; }
 
-        /* Figures */
         body.presentation-mode .slide.active figure {
             animation: slideFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             opacity: 0;
@@ -674,46 +642,48 @@
                 <div class="slide-content col-2 items-center">
                     <div class="col">
                         <ul class="bullet-list">
-                            <li><strong>Central Baltic Hub:</strong> Vital for transport, trade, and cultural connection
-                                (c. 100 BC – AD 1000), leading to geopolitical instability.</li>
-                            <li><strong>Defensive Adaptation:</strong> Construction of six prominent inland
-                                fortifications utilizing rocky topography and natural barriers.</li>
-                            <li><strong>Project Aim:</strong> Investigating how these rural fortifications were
-                                spatially organized to control regional movement.</li>
-                            <li><strong>Demographic Shift:</strong> Assessing how the isolation of these forts evolved
-                                during a major 5th-century relocation to the coast (Albris et al., 2025).</li>
+                            <li><strong>Central Baltic Hub:</strong> Trade center (100 BC–AD 1000)</li>
+                            <li><strong>Instability:</strong> Defensive adaptation</li>
+                            <li><strong>Fortifications:</strong> Six rocky sites</li>
+                            <li><strong>Aim:</strong> Analyze spatial organization</li>
+                            <li><strong>Demographic Shift:</strong> 5th-century coastal relocation (Albris et al., 2025)</li>
                         </ul>
                     </div>
-                    <div class="col h-full" style="position: relative; padding: 2rem 0;">
-                        <div
-                            style="position: absolute; top: 2rem; bottom: 2rem; left: 0; right: 0; display: flex; flex-direction: column; gap: 1.5rem; align-items: center; justify-content: center;">
-                            <figure
-                                style="margin: 0; flex: 1.6; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;">
-                                <img src="A.png" alt="Key archaeological locations on Bornholm"
-                                    style="min-height: 0; max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 4px 20px rgba(0,0,0,0.5);">
-                                <figcaption
-                                    style="margin-top: 0.5rem; color: var(--text-dim); font-size: 0.9rem; text-align: center; font-style: italic; flex-shrink: 0;">
-                                    Key archaeological locations on Bornholm dating to the first millennium CE.
-                                </figcaption>
-                            </figure>
-                            <figure
-                                style="margin: 0; flex: 1; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;">
-                                <img src="B.png" alt="Aerial photograph of the undated northern fort Borgen"
-                                    style="min-height: 0; max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 4px 20px rgba(0,0,0,0.5);">
-                                <figcaption
-                                    style="margin-top: 0.5rem; color: var(--text-dim); font-size: 0.9rem; text-align: center; font-style: italic; flex-shrink: 0;">
-                                    Aerial photograph of the undated northern fort Borgen, July 2024.</figcaption>
-                            </figure>
-                        </div>
+                    <div class="col h-full" style="min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                        <figure style="margin: 0; flex: 1; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;">
+                            <img src="B.png" alt="Aerial photograph of the undated northern fort Borgen"
+                                style="min-height: 0; max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 8px; border: 1px solid rgba(0,0,0,0.2); box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                            <figcaption
+                                style="margin-top: 1rem; color: var(--text-dim); font-size: 1.25rem; text-align: center; font-style: italic; flex-shrink: 0;">
+                                Aerial photograph of the undated northern fort Borgen, July 2024.
+                            </figcaption>
+                        </figure>
                     </div>
                 </div>
                 <div class="slide-footer">
                     <span>Marco B. Jørgensen</span>
-                    <span>02 / 08</span>
+                    <span>02 / 11</span>
                 </div>
             </div>
 
-            <!-- SLIDE 3: THE GAP -->
+            <!-- SLIDE 3: MAP (FULL BLEED) -->
+            <div class="slide slide-full">
+                <div class="slide-content" style="position: relative; margin: 0; min-height: 0;">
+                    <img src="A.png" alt="Key archaeological locations on Bornholm"
+                        style="width: 100%; height: 100%; object-fit: contain; padding: 40px 40px 200px 40px; box-sizing: border-box; filter: drop-shadow(0 4px 20px rgba(0,0,0,0.1));">
+                    
+                    <div style="position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%); background: rgba(248, 250, 252, 0.95); padding: 25px 50px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); text-align: center; border: 1px solid rgba(0,0,0,0.1); z-index: 30; max-width: 80%;">
+                        <h2 class="text-accent" style="margin: 0 0 10px 0; font-size: 3rem; font-weight: 700; font-family: 'Inter', sans-serif;">Key Archaeological Locations</h2>
+                        <p style="margin: 0; color: var(--text-dim); font-size: 1.75rem; font-style: italic;">Archaeological locations on Bornholm dating to the first millennium CE</p>
+                    </div>
+                    <!-- Custom Footer for Full Slide -->
+                    <div style="position: absolute; bottom: 30px; right: 60px; color: rgba(0,0,0,0.5); font-size: 1.5rem; font-weight: 500; z-index: 30;">
+                        03 / 11
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 4: THE GAP -->
             <div class="slide">
                 <div class="slide-header">
                     <h2 class="text-accent">The Methodological Gap in Modeling Mobility</h2>
@@ -722,114 +692,113 @@
                     <!-- Traditional LCP -->
                     <div class="panel panel-rose">
                         <div class="panel-top-bar bg-rose"></div>
-                        <h3 class="panel-title text-rose">Deterministic LCP Models</h3>
+                        <h3 class="panel-title text-rose">Deterministic LCP</h3>
                         <ul class="bullet-list text-2xl">
-                            <li>Rely on basic Least Cost Path (LCP) networks.</li>
-                            <li>Assume travelers possessed perfect landscape knowledge.</li>
-                            <li>Strictly utilize a single, mathematically optimized route.</li>
-                            <li><strong>Ignores natural uncertainty</strong>, exploratory behavior, and changing
-                                alternating routes of actual human travel (Howey, 2011).</li>
+                            <li>Basic Least Cost Path (LCP)</li>
+                            <li>Assume perfect landscape knowledge</li>
+                            <li>Single optimized route</li>
+                            <li><strong>Ignores uncertainty</strong> & exploratory behavior (Howey, 2011)</li>
                         </ul>
                     </div>
 
                     <!-- Circuit Theory -->
                     <div class="panel panel-accent">
                         <div class="panel-top-bar bg-accent"></div>
-                        <h3 class="panel-title text-accent">Circuit Theory Alternative</h3>
+                        <h3 class="panel-title text-accent">Circuit Theory</h3>
                         <ul class="bullet-list text-2xl">
-                            <li>Models movement as a probabilistic flow of "current" across a conductive landscape.</li>
-                            <li>Evaluates traversal across the environment.</li>
-                            <li>Accounts for uncertainty and variations in human travel.</li>
-                            <li><strong>Provides a dynamic and robust alternative</strong> essential for archaeological
-                                research (McRae et al., 2008).</li>
+                            <li>Probabilistic flow across landscape</li>
+                            <li>Evaluates environmental traversal</li>
+                            <li>Accounts for travel uncertainty</li>
+                            <li><strong>Robust alternative</strong> (McRae et al., 2008)</li>
                         </ul>
                     </div>
                 </div>
                 <div class="slide-footer">
                     <span>Marco B. Jørgensen</span>
-                    <span>03 / 08</span>
+                    <span>04 / 11</span>
                 </div>
             </div>
 
-            <!-- SLIDE 4: WORKFLOW I -->
+            <!-- SLIDE 5: GEOMORPHOLOGY MAP (FULL BLEED) -->
+            <div class="slide slide-full">
+                <div class="slide-content" style="position: relative; margin: 0; min-height: 0;">
+                    <img src="dd.jpg" alt="Geomorphology of Bornholm"
+                        style="width: 100%; height: 100%; object-fit: contain; padding: 40px 40px 200px 40px; box-sizing: border-box; filter: drop-shadow(0 4px 20px rgba(0,0,0,0.1));">
+                    
+                    <div style="position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%); background: rgba(248, 250, 252, 0.95); padding: 25px 50px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); text-align: center; border: 1px solid rgba(0,0,0,0.1); z-index: 30; max-width: 80%;">
+                        <h2 class="text-emerald" style="margin: 0 0 10px 0; font-size: 3rem; font-weight: 700; font-family: 'Inter', sans-serif;">Geomorphology of Bornholm</h2>
+                        <p style="margin: 0; color: var(--text-dim); font-size: 1.75rem; font-style: italic;">The physical baseline for reconstructing past mobility</p>
+                    </div>
+                    <div style="position: absolute; bottom: 30px; right: 60px; color: rgba(0,0,0,0.5); font-size: 1.5rem; font-weight: 500; z-index: 30;">
+                        05 / 11
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 6: WORKFLOW I -->
             <div class="slide">
                 <div class="slide-header">
-                    <h2 class="text-emerald">Phase I: Resistance Surface Construction</h2>
+                    <h2 class="text-emerald">Phase I: Resistance Surface</h2>
                 </div>
                 <div class="slide-content col-2 items-center">
-                    <div class="col h-full" style="padding-bottom: 2rem;">
-                        <figure
-                            style="margin: 0; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;">
-                            <img src="dd.jpg" alt="Geomorphology of Bornholm"
-                                style="min-height: 0; max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 8px; border: 1px solid rgba(16,185,129,0.3); box-shadow: 0 4px 20px rgba(0,0,0,0.5);">
-                            <figcaption
-                                style="margin-top: 0.5rem; color: var(--text-dim); font-size: 0.9rem; text-align: center; font-style: italic; flex-shrink: 0;">
-                                Geomorphology of Bornholm
-                            </figcaption>
-                        </figure>
-                    </div>
-                    <div class="col">
+                    <div class="col" style="margin: 0 auto; max-width: 80%; min-height: 0;">
                         <ul class="bullet-list" style="margin-bottom: 2.5rem;">
-                            <li><strong>Historical Cartography:</strong> Historical maps establish a pre-modern baseline
-                                for vegetation and land-use.</li>
-                            <li><strong>Geomorphological Integration:</strong> Historical features draped over
-                                high-resolution lidar and surface geology to interpolate precise boundaries (Comer et
-                                al., 1995).</li>
-                            <li><strong>Unified Friction Model:</strong> Land-cover and topographic slope assigned
-                                specific friction values to model physical travel cost (Howey, 2011).</li>
+                            <li><strong>Historical Cartography:</strong> Baseline vegetation & land-use</li>
+                            <li><strong>Geomorphological Integration:</strong> Interpolate precise boundaries (Comer et al., 1995)</li>
+                            <li><strong>Unified Friction Model:</strong> Model physical travel cost (Howey, 2011)</li>
                         </ul>
                         <div class="panel panel-emerald"
                             style="padding: 1.5rem; background-color: rgba(16, 185, 129, 0.1);">
-                            <h4 class="panel-title-small text-emerald" style="margin-bottom: 0.5rem;">Proposed Untested
-                                Methodology</h4>
-                            <p class="body-text" style="font-size: 1.25rem;">Adding empirical details via the
-                                <strong>Landscape Reconstruction Algorithm (LRA)</strong> to correct pollen biases and
-                                provide quantitative estimates of past plant cover (Sugita, 2007; Sugita et al., 2008;
-                                Githumbi et al., 2022).</p>
+                            <h4 class="panel-title-small text-emerald" style="margin-bottom: 0.5rem;">Proposed Methodology</h4>
+                            <p class="body-text" style="font-size: 1.5rem;">Add empirical details via <strong>Landscape Reconstruction Algorithm (LRA)</strong> to correct pollen biases (Sugita, 2007; Githumbi et al., 2022).</p>
                         </div>
                     </div>
                 </div>
                 <div class="slide-footer">
                     <span>Marco B. Jørgensen</span>
-                    <span>04 / 08</span>
+                    <span>06 / 11</span>
                 </div>
             </div>
 
-            <!-- SLIDE 5: WORKFLOW II -->
+            <!-- SLIDE 7: GFLOW EXAMPLE MAP (FULL BLEED) -->
+            <div class="slide slide-full">
+                <div class="slide-content" style="position: relative; margin: 0; min-height: 0;">
+                    <img src="tex.jpg" alt="Probabilistic Flow Model"
+                        style="width: 100%; height: 100%; object-fit: contain; padding: 40px 40px 200px 40px; box-sizing: border-box; filter: drop-shadow(0 4px 20px rgba(0,0,0,0.1));">
+                    
+                    <div style="position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%); background: rgba(248, 250, 252, 0.95); padding: 25px 50px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); text-align: center; border: 1px solid rgba(0,0,0,0.1); z-index: 30; max-width: 80%;">
+                        <h2 class="text-accent" style="margin: 0 0 10px 0; font-size: 3rem; font-weight: 700; font-family: 'Inter', sans-serif;">Probabilistic Flow Model</h2>
+                        <p style="margin: 0; color: var(--text-dim); font-size: 1.75rem; font-style: italic;">Example visualization of flow paths across the landscape (gflow viewer)</p>
+                    </div>
+                    <div style="position: absolute; bottom: 30px; right: 60px; color: rgba(0,0,0,0.5); font-size: 1.5rem; font-weight: 500; z-index: 30;">
+                        07 / 11
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 8: WORKFLOW II -->
             <div class="slide">
                 <div class="slide-header">
-                    <h2 class="text-accent">Phase II: High-Resolution Probabilistic Flow</h2>
+                    <h2 class="text-accent">Phase II: High-Resolution Flow</h2>
                 </div>
-                <div class="slide-content col-2 flex-row-reverse items-center">
-                    <div class="col h-full" style="padding-bottom: 2rem;">
-                        <figure
-                            style="margin: 0; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;">
-                            <img src="tex.jpg" alt="Example image (gflow) from the stand-alone viewer gview"
-                                style="min-height: 0; max-height: 100%; max-width: 100%; object-fit: contain; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 4px 20px rgba(0,0,0,0.5);">
-                            <figcaption
-                                style="margin-top: 0.5rem; color: var(--text-dim); font-size: 0.9rem; text-align: center; font-style: italic; flex-shrink: 0;">
-                                Example image (gflow) from the stand-alone viewer gview with default settings for one
-                                pairwise calculation from the performance test model. The geographic region encompasses
-                                the south-eastern United States including Texas (2·5 million km²).</figcaption>
-                        </figure>
-                    </div>
-                    <div class="col">
+                <div class="slide-content col-2 items-center">
+                    <div class="col" style="margin: 0 auto; max-width: 80%; min-height: 0;">
                         <ul class="bullet-list">
-                            <li>Mapping shifting movement corridors with omnidirectional circuit theory models (Pelletier et al., 2014).</li>
-                            <li>Executed with highly parallelized gflow software (Leonard et al., 2017).</li>
-                            <li>Processed at a refined spatial resolution without coarse-graining the data.</li>
-                            <li>Ensures fine-scale topographical bottlenecks are accurately preserved.</li>
-                            <li>Calculates changes in "effective resistance" between specific settlements.</li>
+                            <li>Omnidirectional circuit theory (Pelletier et al., 2014)</li>
+                            <li>Parallelized gflow software (Leonard et al., 2017)</li>
+                            <li>Refined spatial resolution</li>
+                            <li>Preserves topographical bottlenecks</li>
+                            <li>Calculates 'effective resistance'</li>
                         </ul>
                     </div>
                 </div>
                 <div class="slide-footer">
                     <span>Marco B. Jørgensen</span>
-                    <span>05 / 08</span>
+                    <span>08 / 11</span>
                 </div>
             </div>
 
-            <!-- SLIDE 6: CLASSIFICATION -->
+            <!-- SLIDE 9: CLASSIFICATION -->
             <div class="slide">
                 <div class="slide-header">
                     <h2 class="text-accent">Corridor Classification</h2>
@@ -842,7 +811,7 @@
                                 <h3 class="panel-title text-accent">Hierarchical Classification</h3>
                                 <p class="body-text mb-6">
                                     Current flow is ranked into <strong>primary, secondary, and tertiary corridors</strong>
-                                    to show which routes mattered most for movement and control (McLean and Rubio-Campillo, 2022).
+                                    to show which routes mattered most (McLean and Rubio-Campillo, 2022).
                                 </p>
                                 <ul class="bullet-list text-2xl">
                                     <li><strong>Primary:</strong> main high-flow connections</li>
@@ -855,11 +824,11 @@
                 </div>
                 <div class="slide-footer">
                     <span>Marco B. Jørgensen</span>
-                    <span>06 / 08</span>
+                    <span>09 / 11</span>
                 </div>
             </div>
 
-            <!-- SLIDE 7: CONCLUSION -->
+            <!-- SLIDE 10: CONCLUSION -->
             <div class="slide">
                 <div class="slide-header">
                     <h2 class="text-accent">Conclusion</h2>
@@ -870,9 +839,11 @@
                             <div class="panel-top-bar bg-accent"></div>
                             <div>
                                 <h3 class="panel-title text-accent">Key Message</h3>
-                                <p class="body-text" style="font-size: 1.6rem; line-height: 1.6;">
-                                    Circuit theory is applied as a dynamic, probabilistic alternative to deterministic path models, combining resistance-surface reconstruction, omnidirectional and pairwise flow analysis, and robustness testing to investigate mobility, fortification control, and settlement hierarchy on Iron Age Bornholm.
-                                </p>
+                                <ul class="bullet-list text-2xl">
+                                    <li><strong>Circuit Theory:</strong> Probabilistic paths</li>
+                                    <li><strong>Analysis:</strong> Flow & robustness</li>
+                                    <li><strong>Focus:</strong> Mobility & control</li>
+                                </ul>
                             </div>
                         </div>
 
@@ -881,9 +852,9 @@
                             <div>
                                 <h3 class="panel-title text-rose">Why It Matters</h3>
                                 <ul class="bullet-list text-2xl">
-                                    <li>Moves beyond single-route assumptions by modeling multiple plausible pathways and bottlenecks.</li>
-                                    <li>Supports phase-to-phase comparison of corridor structure and effective resistance during the 5th-century coastal shift.</li>
-                                    <li>Provides an explicit framework to separate landscape constraints, travel risk, and potential human intent under uncertainty (Herrera Malatesta and de Valeriola, 2024).</li>
+                                    <li><strong>Pathways:</strong> Avoids single-route</li>
+                                    <li><strong>Comparison:</strong> 5th-century coastal shift</li>
+                                    <li><strong>Framework:</strong> Separates constraints, risk & intent</li>
                                 </ul>
                             </div>
                         </div>
@@ -891,16 +862,16 @@
                 </div>
                 <div class="slide-footer">
                     <span>Marco B. Jørgensen</span>
-                    <span>07 / 08</span>
+                    <span>10 / 11</span>
                 </div>
             </div>
 
-            <!-- SLIDE 8: REFERENCES -->
+            <!-- SLIDE 11: REFERENCES -->
             <div class="slide">
                 <div class="slide-header">
                     <h2 class="text-white">References</h2>
                 </div>
-                <div class="slide-content">
+                <div class="slide-content" style="overflow-y: auto; padding-right: 20px;">
                     <div class="ref-grid">
                         <p>Albris, S. L., et al. (2025) 'Fortified Island (FORTIS): fortifications and communities on
                             Iron Age Bornholm', <em>Antiquity</em>.</p>
@@ -934,7 +905,7 @@
                 </div>
                 <div class="slide-footer">
                     <span>Marco B. Jørgensen</span>
-                    <span>08 / 08</span>
+                    <span>11 / 11</span>
                 </div>
             </div>
 
@@ -948,7 +919,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
             </svg>
         </button>
-        <span id="slide-indicator" class="ui-text">01 / 08</span>
+        <span id="slide-indicator" class="ui-text">01 / 11</span>
         <button id="next-btn" class="ui-btn" title="Next Slide (Right Arrow)">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -978,7 +949,7 @@
                 const scaleY = windowHeight / 1080;
                 const scale = Math.min(scaleX, scaleY);
 
-                wrapper.style.transform = `translate(-50%, -50%) scale(${scale})`;
+                wrapper.style.transform = `scale(${scale})`;
             }
 
             window.addEventListener('resize', resizePresentation);
@@ -1054,7 +1025,7 @@
                 setTimeout(async () => {
                     // Remove scale temporarily for a true 1:1 render basis
                     const originalTransform = wrapper.style.transform;
-                    wrapper.style.transform = 'translate(-50%, -50%) scale(1)';
+                    wrapper.style.transform = 'scale(1)';
 
                     try {
                         let renderScale = 6.25; // Attempt 600 DPI (12000x6750)
@@ -1063,7 +1034,7 @@
                         try {
                             canvas = await html2canvas(document.getElementById('presentation-container'), {
                                 scale: renderScale,
-                                backgroundColor: '#0B1120',
+                                backgroundColor: '#F8FAFC',
                                 useCORS: true,
                                 allowTaint: true, // Crucial for local file (file://) protocol rendering
                                 logging: false
@@ -1073,7 +1044,7 @@
                             renderScale = 2; // Standard 4K Fallback
                             canvas = await html2canvas(document.getElementById('presentation-container'), {
                                 scale: renderScale,
-                                backgroundColor: '#0B1120',
+                                backgroundColor: '#F8FAFC',
                                 useCORS: true,
                                 allowTaint: true,
                                 logging: false
